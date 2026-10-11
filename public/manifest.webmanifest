@@ -1,6 +1,6 @@
 {
-  "name": "Linkcard",
-  "short_name": "linkcard",
+  "name": "LinkCard",
+  "short_name": "LinkCard",
   "description": "A single-page link-in-bio profile.",
   "start_url": "/",
   "display": "standalone",

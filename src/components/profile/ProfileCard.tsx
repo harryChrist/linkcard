@@ -1,41 +1,20 @@
 import { Link2 } from "lucide-react";
 import { useState, type CSSProperties, type ReactNode } from "react";
 
+import type {
+  DiscordPresence,
+  ProfileBadge,
+  ProfileLink,
+  ProfileView,
+} from "@/lib/profileTypes";
 import { accessibleLinkName, iconSource } from "@/lib/iconSource";
 import { cn } from "@/lib/utils";
 
 /* ------------------------------------------------------------------ *
- * Types
+ * Types — defined in `@/lib/profileTypes` and re-exported here so the
+ * component keeps its public surface for editors and other consumers.
  * ------------------------------------------------------------------ */
-export type ProfileBadge = { label: string; color: string };
-export type ProfileLink = { label: string; url: string; icon: string };
-export type DiscordPresence = {
-  username: string;
-  activity: string;
-  status: string;
-  avatarUrl: string;
-};
-
-export type ProfileView = {
-  uid: number;
-  displayName: string;
-  title: string;
-  bio: string;
-  avatarUrl: string;
-  bannerUrl: string;
-  accent: string;
-  cardStyle: string;
-  cardShape: string;
-  nameEffect: string;
-  avatarShape: string;
-  avatarSize: string;
-  font: string;
-  buttonTheme: string;
-  badges: ProfileBadge[];
-  links: ProfileLink[];
-  discord?: DiscordPresence;
-  views?: number;
-};
+export type { DiscordPresence, ProfileBadge, ProfileLink, ProfileView };
 
 export type ProfileCardProps = {
   profile: ProfileView;

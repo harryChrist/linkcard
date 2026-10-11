@@ -4,23 +4,20 @@
  * Everything is validated at runtime: a missing or malformed field degrades to
  * a safe default instead of crashing the whole page. Unknown style values are
  * resolved by `ProfileCard` (glass / rounded / circle / lg / JetBrains Mono).
+ *
+ * Imports stay inside `src/lib` on purpose: `vite.config.ts` imports this module
+ * to bake the SEO tags, so it must not reach a `.tsx` file.
  */
 
 import type {
   DiscordPresence,
   ProfileBadge,
   ProfileLink,
+  ProfileMedia,
   ProfileView,
-} from "@/components/profile/ProfileCard";
+} from "./profileTypes";
 
 export const DEFAULT_ACCENT = "#8ab4ff";
-
-export type ProfileMedia = {
-  avatarUrl: string;
-  bannerUrl: string;
-  backgroundVideoUrl: string;
-  musicUrl: string;
-};
 
 function isRecord(value: unknown): value is Record<string, unknown> {
   return typeof value === "object" && value !== null && !Array.isArray(value);

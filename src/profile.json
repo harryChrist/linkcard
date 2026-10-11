@@ -5,6 +5,15 @@
     "title": "FullStack Developer",
     "bio": "Todos os adultos já foram crianças — mas poucos se lembram disso."
   },
+  "seo": {
+    "title": "LinkCard - HarryChrist",
+    "description": "HarryChrist — FullStack Developer. Perfil, blog, redes e projetos reunidos numa única página, sobre um vídeo de fundo.",
+    "url": "https://card.hchrist.com",
+    "image": "",
+    "icon": "",
+    "themeColor": "#08090c",
+    "lang": "pt-BR"
+  },
   "theme": {
     "accent": "#8ab4ff",
     "cardStyle": "glass",

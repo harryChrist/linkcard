@@ -4,6 +4,8 @@ import type { CSSProperties, RefObject } from "react";
 import { ProfileCard } from "@/components/profile/ProfileCard";
 import { SoundDock } from "@/components/profile/SoundDock";
 import { buildProfileView, readMedia } from "@/lib/profile";
+import { buildSeo } from "@/lib/seo";
+import { applySeo } from "@/lib/seoDom";
 import {
   buildYouTubeEmbedUrl,
   isYouTubeUrl,
@@ -304,6 +306,14 @@ function YouTubeBackground({
 export function Profile() {
   const profile = useMemo(() => buildProfileView(profileData), []);
   const media = useMemo(() => readMedia(profileData), []);
+  const seo = useMemo(() => buildSeo(profileData), []);
+
+  // Keeps the tab title, the meta tags and the favicon in sync with the profile
+  // while the dev server runs. The build bakes the same document into
+  // index.html, which is what crawlers and link unfurlers read.
+  useEffect(() => {
+    applySeo(seo, document);
+  }, [seo]);
 
   const youtubeId = useMemo(
     () => parseYouTubeId(media.backgroundVideoUrl),

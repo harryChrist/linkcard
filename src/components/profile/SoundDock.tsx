@@ -68,10 +68,27 @@ export function SoundDock({
         step={1}
         value={safeVolume}
         aria-label="Volume"
+        aria-valuetext={`${safeVolume}%`}
         title="Volume"
         onChange={(event) => onVolumeChange(Number(event.target.value))}
         className="sound-slider"
       />
+
+      {/*
+       * Fixed width and tabular digits: the dock must not shift when the value
+       * goes from 7% to 100%. Hidden from assistive tech because the range
+       * input above already exposes the same number through `aria-valuetext`.
+       */}
+      <span
+        aria-hidden="true"
+        data-volume-readout
+        className={cn(
+          "w-9 shrink-0 text-right text-[0.6875rem] leading-none tabular-nums transition-colors",
+          muted ? "text-[#f2a2a2]" : "text-foreground",
+        )}
+      >
+        {safeVolume}%
+      </span>
     </div>
   );
 }
