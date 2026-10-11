@@ -1,0 +1,660 @@
+@import "tailwindcss";
+@import "tw-animate-css";
+
+@custom-variant dark (&:is(.dark *));
+
+/* ------------------------------------------------------------------ *
+ * Design tokens — dark, near-black blue with ivory text.
+ * ------------------------------------------------------------------ */
+:root,
+.dark {
+  --radius: 0.875rem;
+
+  --background: #08090c;
+  --foreground: #f4f4f1;
+
+  --card: #0d1117;
+  --card-foreground: #f4f4f1;
+
+  --popover: #0f131a;
+  --popover-foreground: #f4f4f1;
+
+  --primary: #c9d1d9;
+  --primary-foreground: #0a0c10;
+
+  --secondary: rgba(255, 255, 255, 0.06);
+  --secondary-foreground: #f4f4f1;
+
+  --muted: rgba(255, 255, 255, 0.05);
+  --muted-foreground: #8b949e;
+
+  --accent: rgba(255, 255, 255, 0.08);
+  --accent-foreground: #f4f4f1;
+
+  --destructive: #e06a6a;
+  --destructive-foreground: #f4f4f1;
+
+  --border: rgba(255, 255, 255, 0.13);
+  --input: rgba(255, 255, 255, 0.1);
+  --ring: rgba(201, 209, 217, 0.55);
+
+  --chart-1: #8ab4ff;
+  --chart-2: #8fdc7a;
+  --chart-3: #c4a9ff;
+  --chart-4: #ff9dc6;
+  --chart-5: #ffd479;
+
+  --sidebar: #0d1117;
+  --sidebar-foreground: #f4f4f1;
+  --sidebar-primary: #c9d1d9;
+  --sidebar-primary-foreground: #0a0c10;
+  --sidebar-accent: rgba(255, 255, 255, 0.08);
+  --sidebar-accent-foreground: #f4f4f1;
+  --sidebar-border: rgba(255, 255, 255, 0.13);
+  --sidebar-ring: rgba(201, 209, 217, 0.55);
+
+  /* Profile defaults; ProfileCard overrides --profile-accent inline. */
+  --profile-accent: #8ab4ff;
+  --profile-muted-fg: #8b949e;
+}
+
+@theme inline {
+  --radius-sm: calc(var(--radius) - 4px);
+  --radius-md: calc(var(--radius) - 2px);
+  --radius-lg: var(--radius);
+  --radius-xl: calc(var(--radius) + 4px);
+
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-card: var(--card);
+  --color-card-foreground: var(--card-foreground);
+  --color-popover: var(--popover);
+  --color-popover-foreground: var(--popover-foreground);
+  --color-primary: var(--primary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-secondary: var(--secondary);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-accent: var(--accent);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-destructive: var(--destructive);
+  --color-destructive-foreground: var(--destructive-foreground);
+  --color-border: var(--border);
+  --color-input: var(--input);
+  --color-ring: var(--ring);
+  --color-chart-1: var(--chart-1);
+  --color-chart-2: var(--chart-2);
+  --color-chart-3: var(--chart-3);
+  --color-chart-4: var(--chart-4);
+  --color-chart-5: var(--chart-5);
+  --color-sidebar: var(--sidebar);
+  --color-sidebar-foreground: var(--sidebar-foreground);
+  --color-sidebar-primary: var(--sidebar-primary);
+  --color-sidebar-primary-foreground: var(--sidebar-primary-foreground);
+  --color-sidebar-accent: var(--sidebar-accent);
+  --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
+  --color-sidebar-border: var(--sidebar-border);
+  --color-sidebar-ring: var(--sidebar-ring);
+
+  --font-sans:
+    "JetBrains Mono", ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+  --font-mono:
+    "JetBrains Mono", ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+  --font-display: "Manrope", system-ui, sans-serif;
+}
+
+@theme {
+  --animate-card-in: card-in 700ms cubic-bezier(0.22, 1, 0.36, 1) both;
+  --animate-fade-up: fade-up 700ms cubic-bezier(0.22, 1, 0.36, 1) both;
+  --animate-name-pan: name-pan 7s linear infinite;
+  --animate-name-shimmer: name-shimmer 3.4s linear infinite;
+  --animate-name-rainbow: name-pan 9s linear infinite;
+  --animate-caret: caret-blink 1.05s step-end infinite;
+  --animate-mute-pulse: mute-pulse 2.4s ease-in-out infinite;
+  --animate-link-sheen: link-sheen 700ms ease-out 1;
+}
+
+/* ------------------------------------------------------------------ *
+ * Keyframes
+ * ------------------------------------------------------------------ */
+@keyframes card-in {
+  from {
+    opacity: 0;
+    transform: translateY(14px) scale(0.985);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+@keyframes fade-up {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes name-pan {
+  from {
+    background-position: 0% 50%;
+  }
+  to {
+    background-position: 200% 50%;
+  }
+}
+
+@keyframes name-shimmer {
+  from {
+    background-position: -160% 50%;
+  }
+  to {
+    background-position: 260% 50%;
+  }
+}
+
+@keyframes caret-blink {
+  0%,
+  49% {
+    opacity: 1;
+  }
+  50%,
+  100% {
+    opacity: 0;
+  }
+}
+
+@keyframes typewriter-reveal {
+  from {
+    clip-path: inset(0 100% 0 0);
+  }
+  to {
+    clip-path: inset(0 0 0 0);
+  }
+}
+
+@keyframes mute-pulse {
+  0%,
+  100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.55;
+  }
+}
+
+@keyframes link-sheen {
+  from {
+    transform: translateX(-130%) skewX(-16deg);
+  }
+  to {
+    transform: translateX(230%) skewX(-16deg);
+  }
+}
+
+/* ------------------------------------------------------------------ *
+ * Base
+ * ------------------------------------------------------------------ */
+@layer base {
+  * {
+    @apply border-border outline-ring/50;
+  }
+
+  html {
+    background-color: var(--background);
+    -webkit-text-size-adjust: 100%;
+  }
+
+  body {
+    @apply bg-background text-foreground font-mono;
+    margin: 0;
+    min-height: 100vh;
+    overflow-x: hidden;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    text-rendering: optimizeLegibility;
+  }
+
+  button:not(:disabled),
+  [role="button"]:not([aria-disabled="true"]),
+  input[type="range"] {
+    cursor: pointer;
+  }
+
+  :focus-visible {
+    outline: 2px solid var(--profile-accent, #8ab4ff);
+    outline-offset: 2px;
+  }
+}
+
+/* ------------------------------------------------------------------ *
+ * Profile card surfaces
+ * ------------------------------------------------------------------ */
+.profile-card {
+  --profile-accent: #8ab4ff;
+  isolation: isolate;
+}
+
+/* Glass ------------------------------------------------------------- */
+.card-glass {
+  /* Solid dark fallback first: readable without backdrop-filter. */
+  background:
+    linear-gradient(160deg, rgba(20, 24, 34, 0.94), rgba(9, 11, 15, 0.92));
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  box-shadow:
+    0 34px 90px -24px rgba(0, 0, 0, 0.9),
+    0 2px 0 rgba(255, 255, 255, 0.03) inset;
+}
+
+@supports ((backdrop-filter: blur(2px)) or (-webkit-backdrop-filter: blur(2px))) {
+  .card-glass {
+    background: linear-gradient(160deg, rgba(23, 28, 39, 0.62), rgba(8, 10, 14, 0.58));
+    -webkit-backdrop-filter: blur(22px) saturate(150%);
+    backdrop-filter: blur(22px) saturate(150%);
+    border-color: rgba(255, 255, 255, 0.14);
+  }
+}
+
+.card-glass::before {
+  content: "";
+  position: absolute;
+  inset: -55% 12% auto 12%;
+  height: 70%;
+  z-index: 0;
+  pointer-events: none;
+  border-radius: inherit;
+  opacity: 0.55;
+  background: radial-gradient(
+    60% 100% at 50% 100%,
+    color-mix(in srgb, var(--profile-accent) 22%, transparent),
+    transparent 72%
+  );
+}
+
+/* Rim: only the 1px border ring is painted, never the whole surface. */
+.card-glass::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: 3;
+  pointer-events: none;
+  border-radius: inherit;
+  padding: 1px;
+  background: linear-gradient(
+    140deg,
+    color-mix(in srgb, var(--profile-accent) 70%, transparent),
+    transparent 42%,
+    color-mix(in srgb, var(--profile-accent) 34%, transparent)
+  );
+  -webkit-mask:
+    linear-gradient(#000 0 0) content-box,
+    linear-gradient(#000 0 0);
+  mask:
+    linear-gradient(#000 0 0) content-box,
+    linear-gradient(#000 0 0);
+  -webkit-mask-composite: xor;
+  mask-composite: exclude;
+  opacity: 0.85;
+}
+
+/* Solid ------------------------------------------------------------- */
+.card-solid {
+  background: linear-gradient(180deg, var(--card), #090b10);
+  border: 1px solid rgba(255, 255, 255, 0.16);
+  box-shadow: 0 28px 70px -22px rgba(0, 0, 0, 0.9);
+}
+
+/* Outline ----------------------------------------------------------- */
+.card-outline {
+  background: rgba(9, 11, 15, 0.62);
+  border: 2px solid rgba(255, 255, 255, 0.24);
+  box-shadow: 0 28px 70px -26px rgba(0, 0, 0, 0.85);
+}
+
+/* Neon -------------------------------------------------------------- */
+.card-neon {
+  background: linear-gradient(180deg, rgba(10, 13, 19, 0.94), rgba(6, 8, 11, 0.92));
+  border: 1px solid color-mix(in srgb, var(--profile-accent) 65%, transparent);
+  box-shadow:
+    0 0 0 1px color-mix(in srgb, var(--profile-accent) 22%, transparent) inset,
+    0 0 34px -6px color-mix(in srgb, var(--profile-accent) 45%, transparent),
+    0 28px 70px -26px rgba(0, 0, 0, 0.9);
+}
+
+.card-neon::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+  border-radius: inherit;
+  opacity: 0.4;
+  background: radial-gradient(
+    120% 70% at 50% -10%,
+    color-mix(in srgb, var(--profile-accent) 26%, transparent),
+    transparent 70%
+  );
+}
+
+/* ------------------------------------------------------------------ *
+ * Name effects
+ * ------------------------------------------------------------------ */
+.profile-name {
+  color: var(--foreground);
+}
+
+.name-glow {
+  text-shadow:
+    0 0 16px color-mix(in srgb, var(--profile-accent) 70%, transparent),
+    0 0 44px color-mix(in srgb, var(--profile-accent) 35%, transparent);
+}
+
+@supports ((-webkit-background-clip: text) or (background-clip: text)) {
+  .name-gradient,
+  .name-rainbow,
+  .name-shimmer {
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+    -webkit-text-fill-color: transparent;
+    background-size: 200% 100%;
+  }
+
+  .name-gradient {
+    background-image: linear-gradient(
+      100deg,
+      var(--foreground) 0%,
+      var(--profile-accent) 45%,
+      var(--foreground) 100%
+    );
+    animation: var(--animate-name-pan);
+  }
+
+  .name-rainbow {
+    background-image: linear-gradient(
+      100deg,
+      #ff9dc6,
+      #ffd479,
+      #8fdc7a,
+      #8ab4ff,
+      #c4a9ff,
+      #ff9dc6
+    );
+    background-size: 300% 100%;
+    animation: var(--animate-name-rainbow);
+  }
+
+  .name-shimmer {
+    background-image: linear-gradient(
+      100deg,
+      color-mix(in srgb, var(--foreground) 78%, transparent) 0%,
+      var(--foreground) 18%,
+      #ffffff 26%,
+      var(--profile-accent) 40%,
+      color-mix(in srgb, var(--foreground) 78%, transparent) 60%
+    );
+    background-size: 220% 100%;
+    animation: var(--animate-name-shimmer);
+  }
+}
+
+/* Typewriter: the full text stays in the DOM, only a clip-path reveals it. */
+.name-typewriter {
+  display: inline-block;
+  clip-path: inset(0 0 0 0);
+  animation: typewriter-reveal 1.9s steps(var(--name-length, 14), end) both;
+}
+
+.name-typewriter::after {
+  content: "";
+  display: inline-block;
+  width: 0.06em;
+  height: 0.95em;
+  margin-left: 0.12em;
+  translate: 0 0.09em;
+  background: var(--profile-accent);
+  animation: var(--animate-caret);
+}
+
+/* ------------------------------------------------------------------ *
+ * Link buttons
+ * ------------------------------------------------------------------ */
+.profile-link {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  min-height: 2.75rem;
+  padding: 0.5rem 0.85rem;
+  border-radius: 12px;
+  font-size: 0.8125rem;
+  line-height: 1.1;
+  overflow: hidden;
+  transition:
+    transform 220ms cubic-bezier(0.22, 1, 0.36, 1),
+    background-color 220ms ease,
+    border-color 220ms ease,
+    box-shadow 220ms ease;
+}
+
+.profile-link:hover {
+  transform: translateY(-3px) scale(1.02);
+}
+
+.profile-link:active {
+  transform: translateY(-1px) scale(1);
+}
+
+.profile-link .link-sheen {
+  position: absolute;
+  inset: 0 auto 0 0;
+  width: 40%;
+  pointer-events: none;
+  opacity: 0;
+  background: linear-gradient(
+    90deg,
+    transparent,
+    rgba(255, 255, 255, 0.22),
+    transparent
+  );
+  transform: translateX(-130%) skewX(-16deg);
+}
+
+.profile-link:hover .link-sheen,
+.profile-link:focus-visible .link-sheen {
+  opacity: 1;
+  animation: var(--animate-link-sheen);
+}
+
+.btn-glass {
+  background: linear-gradient(
+    180deg,
+    rgba(255, 255, 255, 0.075),
+    rgba(255, 255, 255, 0.028)
+  );
+  border: 1px solid rgba(255, 255, 255, 0.11);
+  color: var(--foreground);
+}
+
+.btn-glass:hover {
+  background: linear-gradient(
+    180deg,
+    rgba(255, 255, 255, 0.12),
+    rgba(255, 255, 255, 0.05)
+  );
+  border-color: color-mix(in srgb, var(--profile-accent) 45%, transparent);
+  box-shadow: 0 10px 26px -14px color-mix(in srgb, var(--profile-accent) 60%, transparent);
+}
+
+.btn-solid {
+  background: color-mix(in srgb, var(--profile-accent) 20%, #10141c);
+  border: 1px solid color-mix(in srgb, var(--profile-accent) 42%, transparent);
+  color: var(--foreground);
+}
+
+.btn-solid:hover {
+  background: color-mix(in srgb, var(--profile-accent) 30%, #10141c);
+}
+
+.btn-outline {
+  background: rgba(255, 255, 255, 0.02);
+  border: 1px solid rgba(255, 255, 255, 0.24);
+  color: var(--foreground);
+}
+
+.btn-outline:hover {
+  border-color: var(--profile-accent);
+  background: rgba(255, 255, 255, 0.05);
+}
+
+.btn-sharp {
+  border-radius: 4px;
+}
+
+.btn-pill {
+  border-radius: 999px;
+}
+
+/* ------------------------------------------------------------------ *
+ * Background layers
+ * ------------------------------------------------------------------ */
+/* NOTE: these class names must not start with a Tailwind utility prefix
+   (e.g. `bg-`), otherwise `tailwind-merge` treats them as utilities and
+   drops them from `cn()` output. */
+.layer-iframe-cover {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: auto;
+  height: auto;
+  min-width: 100%;
+  min-height: 100%;
+  aspect-ratio: 16 / 9;
+  transform: translate(-50%, -50%);
+  border: 0;
+}
+
+/* Banner variant (paired with ProfileCard's optional `bannerVideo`): zooms in
+   to crop black bars baked into the frame. The page background uses the plain
+   `layer-iframe-cover` above. */
+.layer-iframe-cover--zoomed {
+  transform: translate(-50%, -50%) scale(1.32);
+}
+
+.layer-scrim {
+  background:
+    radial-gradient(
+      120% 80% at 50% 0%,
+      color-mix(in srgb, var(--profile-accent) 10%, transparent),
+      transparent 60%
+    ),
+    linear-gradient(180deg, rgba(8, 9, 12, 0.72) 0%, rgba(8, 9, 12, 0.45) 42%, rgba(8, 9, 12, 0.86) 100%);
+}
+
+/* ------------------------------------------------------------------ *
+ * Sound dock
+ * ------------------------------------------------------------------ */
+.sound-dock {
+  background: rgba(6, 7, 10, 0.68);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  -webkit-backdrop-filter: blur(14px) saturate(140%);
+  backdrop-filter: blur(14px) saturate(140%);
+  box-shadow: 0 16px 40px -18px rgba(0, 0, 0, 0.9);
+}
+
+.sound-slider {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 84px;
+  height: 18px;
+  background: transparent;
+}
+
+.sound-slider:focus-visible {
+  outline: 2px solid var(--profile-volume-accent, #8ab4ff);
+  outline-offset: 3px;
+  border-radius: 999px;
+}
+
+.sound-slider::-webkit-slider-runnable-track {
+  height: 4px;
+  border-radius: 999px;
+  background: linear-gradient(
+    to right,
+    var(--profile-volume-accent, #8ab4ff) 0%,
+    var(--profile-volume-accent, #8ab4ff) var(--profile-volume-fill, 70%),
+    rgba(255, 255, 255, 0.18) var(--profile-volume-fill, 70%),
+    rgba(255, 255, 255, 0.18) 100%
+  );
+}
+
+.sound-slider::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 12px;
+  height: 12px;
+  margin-top: -4px;
+  border-radius: 999px;
+  background: #f4f4f1;
+  box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.55);
+}
+
+.sound-slider::-moz-range-track {
+  height: 4px;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.18);
+}
+
+.sound-slider::-moz-range-progress {
+  height: 4px;
+  border-radius: 999px;
+  background: var(--profile-volume-accent, #8ab4ff);
+}
+
+.sound-slider::-moz-range-thumb {
+  width: 12px;
+  height: 12px;
+  border: 0;
+  border-radius: 999px;
+  background: #f4f4f1;
+}
+
+/* ------------------------------------------------------------------ *
+ * Reduced motion: content must always be visible without animation.
+ * ------------------------------------------------------------------ */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+    scroll-behavior: auto !important;
+  }
+
+  .name-typewriter {
+    clip-path: inset(0 0 0 0) !important;
+    animation: none !important;
+  }
+
+  /* Clipped gradients can land on a transparent stop when frozen: fall
+     back to plain readable text instead of animating. */
+  .name-gradient,
+  .name-rainbow,
+  .name-shimmer {
+    background-image: none !important;
+    animation: none !important;
+    color: var(--foreground) !important;
+    -webkit-text-fill-color: var(--foreground) !important;
+  }
+
+  .profile-link:hover {
+    transform: none;
+  }
+}

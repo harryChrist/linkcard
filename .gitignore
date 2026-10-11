@@ -1,0 +1,59 @@
+# Dependencies
+node_modules/
+
+# Build output
+dist/
+dist-ssr/
+*.local
+
+# Workspace metadata (not part of the project)
+.freebuff/
+
+# Test / coverage
+coverage/
+
+# Logs
+logs/
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+bun-debug.log*
+
+# Environment files (this static profile needs no secrets, but keep them out)
+.env
+.env.*
+!.env.example
+
+# Editor / OS
+.vscode/*
+!.vscode/extensions.json
+.idea/
+.DS_Store
+Thumbs.db
+*.swp
+
+# ---------------------------------------------------------------------------
+# Large video masters and scratch workspaces
+#
+# Reminder: .gitignore only prevents FUTURE inclusion. It does not remove a
+# blob that is already part of the commit history -- cleaning history is a
+# separate operation and must be done by whoever controls the repository.
+# GitHub also rejects individual blobs above 100 MiB, so no video master
+# should ever be committed.
+# ---------------------------------------------------------------------------
+
+# Working / scratch folders used while converting video
+/isolate/
+/work/
+/tmp/
+
+# Source masters (never published, never committed)
+memphis-9mm-extended.mp4
+*-extended.mp4
+*.partial
+public/videos/*.partial
+
+# Optional: local scratch encodes that are not meant to ship
+/public/videos/raw/

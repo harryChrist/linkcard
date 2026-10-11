@@ -1,0 +1,44 @@
+{
+  "identity": {
+    "handle": "HarryChrist",
+    "uid": 1,
+    "title": "FullStack Developer",
+    "bio": "Todos os adultos já foram crianças — mas poucos se lembram disso."
+  },
+  "theme": {
+    "accent": "#8ab4ff",
+    "cardStyle": "glass",
+    "cardShape": "rounded",
+    "nameEffect": "shimmer",
+    "avatarShape": "circle",
+    "avatarSize": "lg",
+    "font": "jetbrains",
+    "buttonTheme": "glass"
+  },
+  "media": {
+    "avatarUrl": "https://avatars.githubusercontent.com/u/30308156?v=4",
+    "bannerUrl": "https://images.unsplash.com/photo-1502134249126-9f3755a50d78?q=80&w=1400&auto=format&fit=crop",
+    "backgroundVideoUrl": "https://www.youtube.com/watch?v=eFIMruzx_Rs",
+    "musicUrl": ""
+  },
+  "badges": [
+    { "label": "Developer", "color": "#8ab4ff" },
+    { "label": "Best Guy", "color": "#8fdc7a" },
+    { "label": "FullStack", "color": "#c4a9ff" },
+    { "label": "Otaku", "color": "#ff9dc6" }
+  ],
+  "links": [
+    { "label": "", "url": "https://www.instagram.com/hchrist.dev/", "icon": "instagram" },
+    { "label": "", "url": "https://www.linkedin.com/in/henriquechrist/", "icon": "linkedin" },
+    { "label": "", "url": "https://github.com/harryChrist", "icon": "github" },
+    { "label": "", "url": "https://www.hchrist.com/", "icon": "mdi:web" },
+    { "label": "", "url": "https://blog.hchrist.com/", "icon": "mdi:post" },
+    { "label": "", "url": "https://mahoureader.com/", "icon": "mdi:book-open-variant" }
+  ],
+  "presence": {
+    "username": "Chomusuke",
+    "activity": "Lendo O Pequeno Príncipe",
+    "status": "online",
+    "avatarUrl": "https://cdn.discordapp.com/app-icons/1313925463177039943/496afecc8d50da0af0ea61c707f9a38f.png"
+  }
+}

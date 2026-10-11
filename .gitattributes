@@ -1,0 +1,17 @@
+# Normalize line endings in the repository.
+* text=auto
+
+# Shell script must stay LF so it remains runnable on macOS/Linux and Git Bash.
+*.sh text eol=lf
+*.m3u8 text eol=lf
+
+# Media is binary. Scoped by extension/path on purpose: an unscoped `*.ts`
+# rule would mark TypeScript sources as binary and kill their diffs.
+*.png binary
+*.jpg binary
+*.jpeg binary
+*.webp binary
+*.avif binary
+*.mp4 binary
+*.webm binary
+public/videos/**/*.ts binary
