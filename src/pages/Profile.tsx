@@ -3,7 +3,7 @@ import type { CSSProperties, RefObject } from "react";
 
 import { ProfileCard } from "@/components/profile/ProfileCard";
 import { SoundDock } from "@/components/profile/SoundDock";
-import { buildProfileView, readMedia } from "@/lib/profile";
+import { buildProfileView, readMedia, readSoundDockPosition } from "@/lib/profile";
 import { buildSeo } from "@/lib/seo";
 import { applySeo } from "@/lib/seoDom";
 import {
@@ -14,6 +14,8 @@ import {
   postYouTubeCommand,
   postYouTubeListening,
   readYouTubeMessage,
+  readYouTubePlayerState,
+  YOUTUBE_STATE_PAUSED,
 } from "@/lib/youtube";
 import profileData from "@/profile.json";
 
@@ -139,6 +141,8 @@ type YouTubeBackgroundProps = {
   mutedRef: RefObject<boolean>;
   volumeRef: RefObject<number>;
   playbackTimeRef: RefObject<number>;
+  /** Called when the browser paused the player because sound was refused. */
+  onUnmuteBlocked: () => void;
 };
 
 function YouTubeBackground({
@@ -149,8 +153,15 @@ function YouTubeBackground({
   mutedRef,
   volumeRef,
   playbackTimeRef,
+  onUnmuteBlocked,
 }: YouTubeBackgroundProps) {
   const src = useMemo(() => buildYouTubeEmbedUrl(videoId), [videoId]);
+
+  /** The sound state this player was last told to use. */
+  const playerMutedRef = useRef(muted);
+  useEffect(() => {
+    playerMutedRef.current = muted;
+  }, [muted]);
 
   /**
    * Position to resume, frozen when this player instance mounts. A brand new
@@ -207,6 +218,25 @@ function YouTubeBackground({
       if (!iframe || event.source !== iframe.contentWindow) return;
       if (!event.origin.startsWith("https://www.youtube")) return;
 
+      // Mobile browsers (iOS Safari always, Android Chrome without a prior tap)
+      // refuse sound in this cross-origin frame and pause the video instead of
+      // playing it unmuted. The background has no controls, so a pause while
+      // unmuted on a visible page can only be that refusal: fall back to muted
+      // playback so the video keeps running.
+      const state = readYouTubePlayerState(event.data);
+      if (
+        state === YOUTUBE_STATE_PAUSED &&
+        !playerMutedRef.current &&
+        document.visibilityState === "visible"
+      ) {
+        const target = iframe.contentWindow;
+        playerMutedRef.current = true;
+        postYouTubeCommand(target, "mute");
+        postYouTubeCommand(target, "playVideo");
+        onUnmuteBlocked();
+        return;
+      }
+
       const message = readYouTubeMessage(event.data);
       if (!message) return;
 
@@ -248,7 +278,17 @@ function YouTubeBackground({
 
     window.addEventListener("message", handle);
     return () => window.removeEventListener("message", handle);
-  }, [applyState, iframeRef, playbackTimeRef]);
+  }, [applyState, iframeRef, onUnmuteBlocked, playbackTimeRef]);
+
+  // Mobile browsers pause the frame while the tab is in the background and do
+  // not resume it on return, so playback is restarted when the page shows again.
+  useEffect(() => {
+    const handle = () => {
+      if (document.visibilityState === "visible") applyState(false);
+    };
+    document.addEventListener("visibilitychange", handle);
+    return () => document.removeEventListener("visibilitychange", handle);
+  }, [applyState]);
 
   // Ask for the position periodically (and once before unmounting) so a
   // remount can resume within ~1s. This is the best the iframe API allows
@@ -307,6 +347,7 @@ export function Profile() {
   const profile = useMemo(() => buildProfileView(profileData), []);
   const media = useMemo(() => readMedia(profileData), []);
   const seo = useMemo(() => buildSeo(profileData), []);
+  const dockPosition = useMemo(() => readSoundDockPosition(profileData), []);
 
   // Keeps the tab title, the meta tags and the favicon in sync with the profile
   // while the dev server runs. The build bakes the same document into
@@ -364,9 +405,23 @@ export function Profile() {
     }
   }, [muted, volume]);
 
-  // First gesture anywhere outside the sound dock enables sound.
+  /**
+   * Set once the browser refused sound for the background player. Auto-unmute
+   * then stops, otherwise every tap would retry, get refused and stutter the
+   * video. The sound dock can still try explicitly.
+   */
+  const [unmuteBlocked, setUnmuteBlocked] = useState(false);
+  const handleUnmuteBlocked = useCallback(() => {
+    setUnmuteBlocked(true);
+    setMuted(true);
+  }, []);
+
+  // First gesture anywhere outside the sound dock enables sound. Only events
+  // that grant user activation count: on touch screens that is `pointerup`
+  // (not `pointerdown`/`touchstart`), and unmuting before activation makes
+  // mobile browsers pause the video.
   useEffect(() => {
-    if (!muted) return;
+    if (!muted || unmuteBlocked) return;
 
     const handleGesture = (event: Event) => {
       const target = event.target;
@@ -375,16 +430,14 @@ export function Profile() {
     };
 
     const options: AddEventListenerOptions = { capture: true };
-    window.addEventListener("pointerdown", handleGesture, options);
-    window.addEventListener("touchstart", handleGesture, options);
+    window.addEventListener("pointerup", handleGesture, options);
     window.addEventListener("keydown", handleGesture, options);
 
     return () => {
-      window.removeEventListener("pointerdown", handleGesture, options);
-      window.removeEventListener("touchstart", handleGesture, options);
+      window.removeEventListener("pointerup", handleGesture, options);
       window.removeEventListener("keydown", handleGesture, options);
     };
-  }, [muted]);
+  }, [muted, unmuteBlocked]);
 
   const handleToggleMute = () => setMuted((current) => !current);
 
@@ -406,6 +459,7 @@ export function Profile() {
           mutedRef={mutedRef}
           volumeRef={volumeRef}
           playbackTimeRef={playbackTimeRef}
+          onUnmuteBlocked={handleUnmuteBlocked}
         />
       );
     }
@@ -451,6 +505,7 @@ export function Profile() {
 
       <SoundDock
         accent={profile.accent}
+        position={dockPosition}
         muted={muted}
         volume={volume}
         onToggleMute={handleToggleMute}

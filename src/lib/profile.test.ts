@@ -1,7 +1,7 @@
 import { describe, expect, it } from "vitest";
 
 import profileJson from "@/profile.json";
-import { buildProfileView, readMedia } from "@/lib/profile";
+import { buildProfileView, readMedia, readSoundDockPosition } from "@/lib/profile";
 
 describe("buildProfileView", () => {
   it("maps the shipped profile.json", () => {
@@ -11,8 +11,8 @@ describe("buildProfileView", () => {
     expect(profile.uid).toBe(1);
     expect(profile.accent).toBe("#8ab4ff");
     expect(profile.cardStyle).toBe("glass");
-    expect(profile.badges).toHaveLength(4);
-    expect(profile.links).toHaveLength(6);
+    expect(profile.badges).toHaveLength(3);
+    expect(profile.links).toHaveLength(7);
     expect(profile.discord?.username).toBe("Chomusuke");
     expect(profile.discord?.status).toBe("online");
   });
@@ -55,7 +55,7 @@ describe("buildProfileView", () => {
 describe("readMedia", () => {
   it("reads media strings with empty fallbacks", () => {
     expect(readMedia(profileJson).backgroundVideoUrl).toBe(
-      "https://www.youtube.com/watch?v=eFIMruzx_Rs",
+      "https://www.youtube.com/watch?v=AopWIf6JM7M",
     );
 
     const media = readMedia({ media: { bannerUrl: 5 } });
@@ -65,5 +65,24 @@ describe("readMedia", () => {
       backgroundVideoUrl: "",
       musicUrl: "",
     });
+  });
+});
+
+describe("readSoundDockPosition", () => {
+  it("accepts the four corners", () => {
+    for (const position of ["top-right", "top-left", "bottom-right", "bottom-left"]) {
+      expect(readSoundDockPosition({ theme: { soundDockPosition: position } })).toBe(position);
+    }
+  });
+
+  it("ignores case and surrounding spaces", () => {
+    expect(readSoundDockPosition({ theme: { soundDockPosition: " Top-Left " } })).toBe("top-left");
+  });
+
+  it("falls back to bottom-right for missing or unknown values", () => {
+    expect(readSoundDockPosition({})).toBe("bottom-right");
+    expect(readSoundDockPosition({ theme: { soundDockPosition: "middle" } })).toBe("bottom-right");
+    expect(readSoundDockPosition({ theme: { soundDockPosition: 3 } })).toBe("bottom-right");
+    expect(readSoundDockPosition(null)).toBe("bottom-right");
   });
 });

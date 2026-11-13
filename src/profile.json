@@ -22,27 +22,28 @@
     "avatarShape": "circle",
     "avatarSize": "lg",
     "font": "jetbrains",
-    "buttonTheme": "glass"
+    "buttonTheme": "glass",
+    "soundDockPosition": "top-right"
   },
   "media": {
     "avatarUrl": "https://avatars.githubusercontent.com/u/30308156?v=4",
     "bannerUrl": "https://images.unsplash.com/photo-1502134249126-9f3755a50d78?q=80&w=1400&auto=format&fit=crop",
-    "backgroundVideoUrl": "https://www.youtube.com/watch?v=eFIMruzx_Rs",
+    "backgroundVideoUrl": "https://www.youtube.com/watch?v=AopWIf6JM7M",
     "musicUrl": ""
   },
   "badges": [
     { "label": "Developer", "color": "#8ab4ff" },
     { "label": "Best Guy", "color": "#8fdc7a" },
-    { "label": "FullStack", "color": "#c4a9ff" },
     { "label": "Otaku", "color": "#ff9dc6" }
   ],
   "links": [
-    { "label": "", "url": "https://www.instagram.com/hchrist.dev/", "icon": "instagram" },
-    { "label": "", "url": "https://www.linkedin.com/in/henriquechrist/", "icon": "linkedin" },
-    { "label": "", "url": "https://github.com/harryChrist", "icon": "github" },
-    { "label": "", "url": "https://www.hchrist.com/", "icon": "mdi:web" },
-    { "label": "", "url": "https://blog.hchrist.com/", "icon": "mdi:post" },
-    { "label": "", "url": "https://mahoureader.com/", "icon": "mdi:book-open-variant" }
+    { "label": "Mahou Reader", "url": "https://mahoureader.com/", "icon": "mdi:book-open-variant" },
+    { "label": "Cyno", "url": "http://cyno.com.br/", "icon": "lucide:bot" },
+    { "label": "GitHub", "url": "https://github.com/harryChrist", "icon": "github" },
+    { "label": "Instagram", "url": "https://www.instagram.com/hchrist.dev/", "icon": "instagram" },
+    { "label": "LinkedIn", "url": "https://www.linkedin.com/in/henriquechrist/", "icon": "linkedin" },
+    { "label": "Blog", "url": "https://blog.hchrist.com/", "icon": "mdi:post" },
+    { "label": "Site", "url": "https://www.hchrist.com/", "icon": "mdi:web" }
   ],
   "presence": {
     "username": "Chomusuke",

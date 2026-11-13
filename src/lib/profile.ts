@@ -15,6 +15,7 @@ import type {
   ProfileLink,
   ProfileMedia,
   ProfileView,
+  SoundDockPosition,
 } from "./profileTypes";
 
 export const DEFAULT_ACCENT = "#8ab4ff";
@@ -96,6 +97,25 @@ export function buildProfileView(raw: unknown): ProfileView {
     links: normalizeLinks(root.links),
     discord: normalizePresence(root.presence),
   };
+}
+
+export const DEFAULT_SOUND_DOCK_POSITION: SoundDockPosition = "bottom-right";
+
+const SOUND_DOCK_POSITIONS: ReadonlySet<string> = new Set<SoundDockPosition>([
+  "top-right",
+  "top-left",
+  "bottom-right",
+  "bottom-left",
+]);
+
+/** Reads `theme.soundDockPosition`; anything unknown keeps the bottom-right default. */
+export function readSoundDockPosition(raw: unknown): SoundDockPosition {
+  const root = isRecord(raw) ? raw : {};
+  const theme = isRecord(root.theme) ? root.theme : {};
+  const value = str(theme.soundDockPosition).trim().toLowerCase();
+  return SOUND_DOCK_POSITIONS.has(value)
+    ? (value as SoundDockPosition)
+    : DEFAULT_SOUND_DOCK_POSITION;
 }
 
 export function readMedia(raw: unknown): ProfileMedia {

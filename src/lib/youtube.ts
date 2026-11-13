@@ -193,6 +193,39 @@ export function readYouTubeMessage(
   return { event, info };
 }
 
+/** `YT.PlayerState.PAUSED`. */
+export const YOUTUBE_STATE_PAUSED = 2;
+
+/**
+ * Extracts the player state from an iframe message, or `null` when the message
+ * carries none. `onStateChange` sends the state as a bare number in `info`
+ * (which `readYouTubeMessage` drops), `infoDelivery` sends it as
+ * `info.playerState`.
+ */
+export function readYouTubePlayerState(data: unknown): number | null {
+  let payload: unknown = data;
+
+  if (typeof payload === "string") {
+    try {
+      payload = JSON.parse(payload);
+    } catch {
+      return null;
+    }
+  }
+
+  if (typeof payload !== "object" || payload === null) return null;
+
+  const { event, info } = payload as Record<string, unknown>;
+  if (event === "onStateChange" && typeof info === "number") return info;
+
+  if (typeof info === "object" && info !== null) {
+    const state = (info as Record<string, unknown>).playerState;
+    if (typeof state === "number") return state;
+  }
+
+  return null;
+}
+
 /**
  * True when the value looks like a YouTube URL (even an invalid one). Used to
  * decide between the iframe player and a direct `<video>` element.

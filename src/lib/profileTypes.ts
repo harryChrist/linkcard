@@ -39,6 +39,9 @@ export type ProfileView = {
   views?: number;
 };
 
+/** Screen corner the sound dock is pinned to. */
+export type SoundDockPosition = "top-right" | "top-left" | "bottom-right" | "bottom-left";
+
 export type ProfileMedia = {
   avatarUrl: string;
   bannerUrl: string;

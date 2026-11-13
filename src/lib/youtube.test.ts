@@ -9,6 +9,7 @@ import {
   postYouTubeListening,
   postYouTubeUnloadModules,
   readYouTubeMessage,
+  readYouTubePlayerState,
 } from "@/lib/youtube";
 
 const ID = "eFIMruzx_Rs";
@@ -146,5 +147,25 @@ describe("readYouTubeMessage", () => {
     expect(readYouTubeMessage(42)).toBeNull();
     expect(readYouTubeMessage({})).toBeNull();
     expect(readYouTubeMessage({ event: 5 })).toBeNull();
+  });
+});
+
+describe("readYouTubePlayerState", () => {
+  it("reads the numeric state from onStateChange", () => {
+    expect(readYouTubePlayerState('{"event":"onStateChange","info":2}')).toBe(2);
+    expect(readYouTubePlayerState({ event: "onStateChange", info: 1 })).toBe(1);
+  });
+
+  it("reads playerState from infoDelivery", () => {
+    expect(
+      readYouTubePlayerState({ event: "infoDelivery", info: { playerState: 2, currentTime: 3 } }),
+    ).toBe(2);
+  });
+
+  it("returns null when no state is reported", () => {
+    expect(readYouTubePlayerState({ event: "infoDelivery", info: { currentTime: 3 } })).toBeNull();
+    expect(readYouTubePlayerState('{"event":"onReady"}')).toBeNull();
+    expect(readYouTubePlayerState("not json")).toBeNull();
+    expect(readYouTubePlayerState(null)).toBeNull();
   });
 });

@@ -47,7 +47,8 @@ O script `build` roda `tsc -b && vite build`, então erro de tipo impede o build
     "avatarShape": "circle",
     "avatarSize": "lg",
     "font": "jetbrains",
-    "buttonTheme": "glass"
+    "buttonTheme": "glass",
+    "soundDockPosition": "top-right"
   },
   "media": {
     "avatarUrl": "…",
@@ -73,6 +74,7 @@ Valores aceitos em `theme` (qualquer coisa fora da lista cai no padrão sem queb
 | `avatarSize` | `sm` 72 · `md` 84 · `lg` 96 · `xl` 112 (px) |
 | `font` | `jetbrains` · `manrope` · `inter` · `jakarta` · `poppins` · `montserrat` · `oswald` · `raleway` · `rubik` · `nunito` · `grotesk` · `bebas` · `playfair` |
 | `buttonTheme` | `glass` · `solid` · `outline` · `sharp` · `pill` |
+| `soundDockPosition` | canto do controle de som: `top-right` · `top-left` · `bottom-right` (padrão) · `bottom-left` |
 
 Outras regras: `title`/`bio` vazios escondem o bloco; badge com `label` vazio e link com `url` vazia
 são filtrados; link **sem** `label` vira botão só de ícone; `presence.status` aceita `online` · `idle` ·
@@ -126,6 +128,8 @@ Ao falhar, a imagem troca **uma única vez** para o fallback — sem ciclo de `o
 porcentagem ao lado, em largura fixa para o dock não se mexer; arrastar acima de zero liga o som e o primeiro gesto **fora** do dock também (cliques
   dentro do dock são ignorados por esse listener). Com `musicUrl` preenchido, a trilha separada toca
   e o vídeo permanece mutado.
+- No celular, se o navegador recusar som (o iOS Safari recusa em iframes do YouTube), o player
+  volta a tocar mutado em vez de parar, e o dock mostra o som desligado.
 
 ## Imagens locais
 
