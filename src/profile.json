@@ -27,7 +27,7 @@
   },
   "media": {
     "avatarUrl": "https://avatars.githubusercontent.com/u/30308156?v=4",
-    "bannerUrl": "https://images.unsplash.com/photo-1502134249126-9f3755a50d78?q=80&w=1400&auto=format&fit=crop",
+    "bannerUrl": "https://i.imgur.com/cOW6bIn.jpg",
     "backgroundVideoUrl": "https://www.youtube.com/watch?v=AopWIf6JM7M",
     "musicUrl": ""
   },
@@ -43,7 +43,7 @@
     { "label": "Instagram", "url": "https://www.instagram.com/hchrist.dev/", "icon": "instagram" },
     { "label": "LinkedIn", "url": "https://www.linkedin.com/in/henriquechrist/", "icon": "linkedin" },
     { "label": "Blog", "url": "https://blog.hchrist.com/", "icon": "mdi:post" },
-    { "label": "Site", "url": "https://www.hchrist.com/", "icon": "mdi:web" }
+    { "label": "Portfolio", "url": "https://www.hchrist.com/", "icon": "mdi:web" }
   ],
   "presence": {
     "username": "Chomusuke",

@@ -406,13 +406,14 @@ export function Profile() {
   }, [muted, volume]);
 
   /**
-   * Set once the browser refused sound for the background player. Auto-unmute
-   * then stops, otherwise every tap would retry, get refused and stutter the
-   * video. The sound dock can still try explicitly.
+   * Turns off "first gesture enables sound" for good. Set when the visitor
+   * mutes through the sound dock (their choice must stick) and when the browser
+   * refused sound for the background player (every tap would otherwise retry,
+   * get refused and stutter the video). The sound dock can still unmute.
    */
-  const [unmuteBlocked, setUnmuteBlocked] = useState(false);
+  const [autoUnmuteDisabled, setAutoUnmuteDisabled] = useState(false);
   const handleUnmuteBlocked = useCallback(() => {
-    setUnmuteBlocked(true);
+    setAutoUnmuteDisabled(true);
     setMuted(true);
   }, []);
 
@@ -421,7 +422,7 @@ export function Profile() {
   // (not `pointerdown`/`touchstart`), and unmuting before activation makes
   // mobile browsers pause the video.
   useEffect(() => {
-    if (!muted || unmuteBlocked) return;
+    if (!muted || autoUnmuteDisabled) return;
 
     const handleGesture = (event: Event) => {
       const target = event.target;
@@ -437,9 +438,12 @@ export function Profile() {
       window.removeEventListener("pointerup", handleGesture, options);
       window.removeEventListener("keydown", handleGesture, options);
     };
-  }, [muted, unmuteBlocked]);
+  }, [muted, autoUnmuteDisabled]);
 
-  const handleToggleMute = () => setMuted((current) => !current);
+  const handleToggleMute = () => {
+    if (!muted) setAutoUnmuteDisabled(true);
+    setMuted(!muted);
+  };
 
   const handleVolumeChange = (next: number) => {
     const value = clampVolume(next);
